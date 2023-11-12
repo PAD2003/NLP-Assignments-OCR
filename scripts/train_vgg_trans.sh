@@ -1,0 +1,2 @@
+export CUDA_VISIBLE_DEVICES=0
+python -m  src.train logger=wandb +logger.wandb.name="vgg_transformers" data.num_workers=32 trainer=gpu trainer.max_epochs=25 

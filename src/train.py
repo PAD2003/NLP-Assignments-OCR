@@ -38,6 +38,9 @@ from src.utils import (
 
 log = RankedLogger(__name__, rank_zero_only=True)
 
+# ignore warnings
+import warnings
+warnings.filterwarnings("ignore")
 
 @task_wrapper
 def train(cfg: DictConfig) -> Tuple[Dict[str, Any], Dict[str, Any]]:
@@ -112,6 +115,10 @@ def main(cfg: DictConfig) -> Optional[float]:
     :param cfg: DictConfig configuration composed by Hydra.
     :return: Optional[float] with optimized metric value.
     """
+    # ignore warnings
+    import warnings
+    warnings.filterwarnings("ignore")
+
     # apply extra utilities
     # (e.g. ask for tags if none are provided in cfg, print cfg tree, etc.)
     extras(cfg)

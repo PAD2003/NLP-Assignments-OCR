@@ -1,0 +1,35 @@
+_target_: src.data.ocr_datamodule.OCRDataModule
+
+data_dir: ${paths.data_dir}OCR/new_train
+gt_paths: 
+  - ${paths.data_dir}OCR/gt_files/train_83063.txt
+  - ${paths.data_dir}OCR/gt_files/val_9969.txt
+  - ${paths.data_dir}OCR/gt_files/test_9968.txt
+
+upsampling:
+  - 
+    - ${paths.data_dir}OCR/upsampling/train_83063_common_mistakes.txt
+    - 5
+
+vocab:
+  _target_: src.data.components.ocr_vocab.Vocab
+  chars: aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ-
+
+custom_augmenter:
+  _target_: src.data.components.custom_aug.wrapper.Augmenter
+  dict_path: ${paths.root_dir}src/data/components/custom_aug/asset/translate.txt
+  texture_path: ${paths.root_dir}src/data/components/custom_aug/asset/texture.png
+p: [0.6, 0.2, 0.1, 0.1] # do nothing - augment - add line - augment & add line
+
+basic_augmenter:
+  _target_: src.data.components.vietocr_aug.ImgAugTransform
+
+image_height: 32
+image_min_width: 32
+image_max_width: 512
+
+batch_size: 32
+num_workers: 0
+pin_memory: False
+
+masked_language_model: false
