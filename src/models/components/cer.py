@@ -1,6 +1,5 @@
 from torch.nn.functional import softmax
 import torch
-from torchmetrics.classification.accuracy import Accuracy
 
 class CER():
     def __init__(self, dim=-1):

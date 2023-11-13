@@ -56,12 +56,12 @@ conda activate myenv
 Prepare data
 
 ```bash
-bash scripts prepare_data.sh
+bash scripts/prepare_data.sh
 ```
 
 Train model with default configuration
 
 ```bash
 # train on GPU
-bash scripts train_vgg_trans.sh
+bash scripts/train_vgg_trans.sh
 ```

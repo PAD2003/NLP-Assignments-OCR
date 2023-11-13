@@ -23,14 +23,14 @@ net:
     # dim of ouput feature map
     hidden: 256
   transformer_args:  
-      d_model: 256
-      nhead: 8
-      num_encoder_layers: 6
-      num_decoder_layers: 6
-      dim_feedforward: 2048
-      max_seq_length: 1024
-      pos_dropout: 0.1
-      trans_dropout: 0.1 
+    d_model: 256
+    nhead: 8
+    num_encoder_layers: 6
+    num_decoder_layers: 6
+    dim_feedforward: 2048
+    max_seq_length: 1024
+    pos_dropout: 0.1
+    trans_dropout: 0.1 
   seq_modeling: transformer
 
 pretrain: https://vocr.vn/data/vietocr/vgg_transformer.pth # for training
@@ -38,18 +38,19 @@ pretrain: https://vocr.vn/data/vietocr/vgg_transformer.pth # for training
 optimizer:
   _target_: torch.optim.AdamW
   _partial_: True
+  lr: 0.001
   betas: [0.9, 0.98]
   weight_decay: 0.01
 
 scheduler:
   _target_: torch.optim.lr_scheduler.OneCycleLR
   _partial_: true
-  max_lr: 0.0003
+  max_lr: 0.001
   pct_start: 0.1
   epochs: ${trainer.max_epochs}
   steps_per_epoch: 2667
 
-compile: true
+compile: False
 
 vocab:
   _target_: src.data.components.ocr_vocab.Vocab

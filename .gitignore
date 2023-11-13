@@ -156,3 +156,5 @@ configs/local/default.yaml
 # OCR
 /aug_epoch/
 .DS_Store
+/envs/
+/__MACOSX/

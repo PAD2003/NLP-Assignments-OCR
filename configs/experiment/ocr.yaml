@@ -5,7 +5,7 @@
 
 defaults:
   - override /data: ocr
-  - override /model: ocr_v1
+  - override /model: ocr
   - override /callbacks: default
   - override /trainer: default
 

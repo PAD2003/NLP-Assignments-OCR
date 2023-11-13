@@ -59,19 +59,20 @@ class OCRLitModule(LightningModule):
         self.val_loss_best = MinMetric()
         self.val_cer_best = MinMetric()
 
-    def forward(self, x: torch.Tensor, tgt_input, tgt_key_padding_mask) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, tgt_input, tgt_padding_mask) -> torch.Tensor:
         """Perform a forward pass through the model `self.net`.
 
         :param x: A tensor of images.
         :return: A tensor of logits.
         """
-        return self.net(x, tgt_input, tgt_key_padding_mask)
+        return self.net(x, tgt_input, tgt_padding_mask)
 
     def on_train_start(self) -> None:
         """Lightning hook that is called when training begins."""
         # by default lightning executes validation step sanity checks before training starts,
         # so it's worth to make sure validation metrics don't store results from these checks
         self.val_loss.reset()
+        self.val_cer.reset()
 
     def model_step(
         self, batch: Tuple[torch.Tensor, torch.Tensor]
@@ -86,13 +87,13 @@ class OCRLitModule(LightningModule):
             - A tensor of target labels.
         """
         img, tgt_input, tgt_output, tgt_padding_mask = batch['img'], batch['tgt_input'], batch['tgt_output'], batch['tgt_padding_mask']
-        output = self.forward(img, tgt_input, tgt_key_padding_mask=tgt_padding_mask)
+        output = self.forward(img, tgt_input= tgt_input, tgt_padding_mask=tgt_padding_mask)
         output = output.flatten(0,1)
         tgt_output = tgt_output.flatten(0,1)
 
         loss = self.criterion(output, tgt_output)
     
-        return loss, output, tgt_output
+        return loss, output,tgt_output
 
     def training_step(
         self, batch: Tuple[torch.Tensor, torch.Tensor], batch_idx: int
@@ -188,7 +189,7 @@ class OCRLitModule(LightningModule):
 
         :return: A dict containing the configured optimizers and learning-rate schedulers to be used for training.
         """
-        optimizer = self.hparams.optimizer(params=self.trainer.model.parameters())
+        optimizer = self.hparams.optimizer(params=self.parameters())
         if self.hparams.scheduler is not None:
             scheduler = self.hparams.scheduler(optimizer=optimizer)
             return {
@@ -201,3 +202,6 @@ class OCRLitModule(LightningModule):
                 },
             }
         return {"optimizer": optimizer}
+
+if __name__ == "__main__":
+    print("Here")
