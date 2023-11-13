@@ -76,10 +76,12 @@ Add data to inference_data/data
 | VGG19 - Transformers | 0.5079 | [link](https://drive.google.com/file/d/1sksddC1uSrfPElFuu8s_aD749NT3juip/view?usp=sharing) |
 
 ```bash
-# train on GPU
+# look into configs/infer.yaml to know how to config parameters for inference commands
+
+# inference on GPU
 python -m src.infer device=cuda batch_size=32 ckpt_path=<path_to_ckpt> test_folder_path=<path_to_images_folder> output_path=<output_path>
 
-# train on CPU
+# inference on CPU
 python -m src.infer device=cpu batch_size=16 ckpt_path=<path_to_ckpt> test_folder_path=<path_to_images_folder> output_path=<output_path>
 ```
 
