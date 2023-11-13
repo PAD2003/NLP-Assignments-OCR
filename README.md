@@ -53,15 +53,35 @@ conda activate myenv
 
 ## How to run
 
-Prepare data
+#### Prepare data
 
 ```bash
 bash scripts/prepare_data.sh
 ```
 
-Train model with default configuration
+#### Train model vgg19-transformer
 
 ```bash
 # train on GPU
 bash scripts/train_vgg_trans.sh
 ```
+
+#### Inference with model vgg19-transformer
+
+Create inference_data/data and inference/outputs
+Add data to inference_data/data
+
+| Model | Loss | Checkpoints |
+|-------|-------|-------|
+| VGG19 - Transformers | 0.5079 | [link](https://drive.google.com/file/d/1sksddC1uSrfPElFuu8s_aD749NT3juip/view?usp=sharing) |
+
+```bash
+# train on GPU
+python -m src.infer device=cuda batch_size=32 ckpt_path=<path_to_ckpt> test_folder_path=<path_to_images_folder> output_path=<output_path>
+
+# train on CPU
+python -m src.infer device=cpu batch_size=16 ckpt_path=<path_to_ckpt> test_folder_path=<path_to_images_folder> output_path=<output_path>
+```
+
+## Reference
+[VietOCR](https://github.com/pbcquoc/vietocr)
