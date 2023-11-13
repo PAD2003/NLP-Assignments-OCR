@@ -24,6 +24,7 @@ class OCRLitModule(LightningModule):
         # also ensures init params will be stored in ckpt
         self.save_hyperparameters(logger=False)
 
+        self.vocab = vocab
         self.net = net(vocab_size=len(vocab))
         if pretrain:
             print("USING PRETRAINED MODEL")
@@ -35,7 +36,11 @@ class OCRLitModule(LightningModule):
                 elif state_dict[name].shape != param.shape:
                     print('{} missmatching shape, required {} but found {}'.format(name, param.shape, state_dict[name].shape))
                     del state_dict[name]
-            self.net.load_state_dict(state_dict, strict=False)
+            try:
+                self.net.load_state_dict(state_dict, strict=False)
+            except:
+                print("Do not use pretrained model")
+            
 
         # loss function
         self.criterion = LabelSmoothingLoss(

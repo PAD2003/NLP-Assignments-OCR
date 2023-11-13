@@ -1,0 +1,9 @@
+defaults:
+  - _self_
+  - paths: default
+
+batch_size: 64
+test_folder_path: ${paths.root_dir}/inference_data/data
+output_path: ${paths.root_dir}/inference_data/outputs/prediction_ # do not add ".txt"
+device: cuda
+ckpt_path: ${paths.root_dir}/logs/train/runs/2023-11-13_00-04-21/checkpoints/epoch_024.ckpt
