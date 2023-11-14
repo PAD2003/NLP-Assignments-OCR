@@ -6,7 +6,7 @@ from torchmetrics import MinMetric, MeanMetric
 from src.data.components.ocr_vocab import Vocab
 from src.models.components.labelsmoothingloss import LabelSmoothingLoss
 from src.models.vietocr_utils.download_ckpt import download_weights
-from src.models.components.cer import CER
+# from src.models.components.cer import CER
 
 class OCRLitModule(LightningModule):
     def __init__(
@@ -54,15 +54,15 @@ class OCRLitModule(LightningModule):
         self.val_loss = MeanMetric()
         self.test_loss = MeanMetric()
 
-        # for averaging CER across batches
-        self.cer = CER()
-        self.train_cer = MeanMetric()
-        self.val_cer = MeanMetric()
-        self.test_cer = MeanMetric()
+        # # for averaging CER across batches
+        # self.cer = CER()
+        # self.train_cer = MeanMetric()
+        # self.val_cer = MeanMetric()
+        # self.test_cer = MeanMetric()
 
         # for tracking best so far validation accuracy
         self.val_loss_best = MinMetric()
-        self.val_cer_best = MinMetric()
+        # self.val_cer_best = MinMetric()
 
     def forward(self, x: torch.Tensor, tgt_input, tgt_padding_mask) -> torch.Tensor:
         """Perform a forward pass through the model `self.net`.
@@ -77,7 +77,7 @@ class OCRLitModule(LightningModule):
         # by default lightning executes validation step sanity checks before training starts,
         # so it's worth to make sure validation metrics don't store results from these checks
         self.val_loss.reset()
-        self.val_cer.reset()
+        # self.val_cer.reset()
 
     def model_step(
         self, batch: Tuple[torch.Tensor, torch.Tensor]
@@ -116,9 +116,9 @@ class OCRLitModule(LightningModule):
         self.train_loss(loss)
         self.log("train/loss", self.train_loss, on_step=False, on_epoch=True, prog_bar=True)
 
-        cer_score = self.cer(preds, targets)
-        self.train_cer(cer_score)
-        self.log("train/cer", self.train_cer, on_step=False, on_epoch=True, prog_bar=True)
+        # # cer_score = self.cer(preds, targets)
+        # # self.train_cer(cer_score)
+        # # self.log("train/cer", self.train_cer, on_step=False, on_epoch=True, prog_bar=True)
 
         # return loss or backpropagation will fail
         return loss
@@ -140,9 +140,9 @@ class OCRLitModule(LightningModule):
         self.val_loss(loss)
         self.log("val/loss", self.val_loss, on_step=False, on_epoch=True, prog_bar=True)
 
-        cer_score = self.cer(preds, targets)
-        self.val_cer(cer_score)
-        self.log("val/cer", self.val_cer, on_step=False, on_epoch=True, prog_bar=True)
+        # # cer_score = self.cer(preds, targets)
+        # # self.val_cer(cer_score)
+        # # self.log("val/cer", self.val_cer, on_step=False, on_epoch=True, prog_bar=True)
 
     def on_validation_epoch_end(self) -> None:
         "Lightning hook that is called when a validation epoch ends."
@@ -152,9 +152,9 @@ class OCRLitModule(LightningModule):
         # otherwise metric would be reset by lightning after each epoch
         self.log("val/loss_best", self.val_loss_best.compute(), sync_dist=True, prog_bar=True)
 
-        cer_score = self.val_cer.compute()
-        self.val_cer_best(cer_score)
-        self.log("val/cer_best", self.val_cer_best.compute(), sync_dist=True, prog_bar=True)
+        # # cer_score = self.val_cer.compute()
+        # # self.val_cer_best(cer_score)
+        # # self.log("val/cer_best", self.val_cer_best.compute(), sync_dist=True, prog_bar=True)
 
     def test_step(self, batch: Tuple[torch.Tensor, torch.Tensor], batch_idx: int) -> None:
         """Perform a single test step on a batch of data from the test set.

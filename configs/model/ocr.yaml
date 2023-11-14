@@ -1,39 +1,12 @@
 _target_: src.models.ocr_module.OCRLitModule
 
-net:
-  _target_: src.models.components.vietocr_net.VietOCR
-  _partial_: True
-  backbone: vgg19_bn
-  cnn_args:
-    pretrained: True
-    # pooling stride size
-    ss:
-        - [2, 2]
-        - [2, 2]
-        - [2, 1]
-        - [2, 1]
-        - [1, 1]         
-    # pooling kernel size 
-    ks:
-        - [2, 2]
-        - [2, 2]
-        - [2, 1]
-        - [2, 1]
-        - [1, 1]
-    # dim of ouput feature map
-    hidden: 256
-  transformer_args:  
-    d_model: 256
-    nhead: 8
-    num_encoder_layers: 6
-    num_decoder_layers: 6
-    dim_feedforward: 2048
-    max_seq_length: 1024
-    pos_dropout: 0.1
-    trans_dropout: 0.1 
-  seq_modeling: transformer
+defaults:
+  - _self_
+  - net: resnet50_transformers
 
-pretrain: https://vocr.vn/data/vietocr/vgg_transformer.pth # for training
+# pretrain: https://vocr.vn/data/vietocr/vgg_transformer.pth # vgg19_transformers
+# pretrain: https://vocr.vn/data/vietocr/vgg_seq2seq.pth # vgg19_seq2seq
+pretrain: null
 
 optimizer:
   _target_: torch.optim.AdamW

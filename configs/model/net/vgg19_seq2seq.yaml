@@ -1,0 +1,28 @@
+_target_: src.models.components.vietocr_net.VietOCR
+_partial_: True
+backbone: vgg19_bn
+cnn_args:
+  pretrained: True
+  # pooling stride size
+  ss:
+      - [2, 2]
+      - [2, 2]
+      - [2, 1]
+      - [2, 1]
+      - [1, 1]         
+  # pooling kernel size 
+  ks:
+      - [2, 2]
+      - [2, 2]
+      - [2, 1]
+      - [2, 1]
+      - [1, 1]
+  # dim of ouput feature map
+  hidden: 256
+seq_modeling: seq2seq
+transformer_args:
+  encoder_hidden: 256
+  decoder_hidden: 256
+  img_channel: 256
+  decoder_embedded: 256
+  dropout: 0.1
