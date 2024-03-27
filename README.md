@@ -17,6 +17,8 @@ This project is dedicated to addressing the challenging task of Optical Characte
 
 To accomplish this task, we leverage the power of the VietOCR framework, a versatile and efficient tool specifically designed for text recognition in the Vietnamese language.
 
+You can see our report [here](https://drive.google.com/file/d/1o4FKWc--gyeZUzDFe7DF2mqu-AP2U_rx/view?usp=drive_link)
+
 ## Installation
 
 #### Pip
